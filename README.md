@@ -32,7 +32,7 @@ where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed
 
 ## Project 1 — Particle Filter Localization
 
-**Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from noisy odometry and LIDAR, using a particle filter (sequential Monte Carlo / Bayes filter).
+**Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from LIDAR, using a particle filter.
 
 ### State Estimation Setup
 
@@ -40,7 +40,7 @@ where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed
 - **Sensor model:** $p(z_t \mid x_t, m)$ — probability of a LIDAR scan given the state and known map $m$.
 - **Belief:** approximated by $M$ weighted particles $\{x_t^{[i]}, w_t^{[i]}\}_{i=1}^{M}$.
 
-### Q1 — Kinematic Car Motion Model
+### Kinematic Car Motion Model
 
 **Deterministic update.** Integrating the kinematic bicycle equations over $\Delta t$ with wheelbase $L$:
 
@@ -81,7 +81,7 @@ The whole update is vectorized over all $M$ particles simultaneously using NumPy
 |---|---|---|
 | ![mm1](plots/mm1.png) | ![mm2](plots/mm2.png) | ![mm3](plots/mm3.png) |
 
-### Q2 — LIDAR Sensor (Beam) Model
+### LIDAR Sensor (Beam) Model
 
 For a single beam, let $z$ be the real measured range and $z^\*$ the simulated ("expected") range from ray-casting on the map. The sensor model is a **4-component mixture**:
 
@@ -107,7 +107,7 @@ To make this tractable in real time, probabilities are **pre-computed and cached
 |---|---|
 | ![sensor likelihood position](plots/sensor_likelihood_position.png) | ![sensor likelihood angle](plots/sensor_likelihood_angle.png) |
 
-### Q3 — Particle Filter: Initialization & Low-Variance Resampling
+### Particle Filter: Initialization & Low-Variance Resampling
 
 **Initialization:** particles are sampled from a Gaussian prior around a clicked pose $(x_0, y_0, \theta_0)$ with configurable position/heading variance.
 
@@ -128,7 +128,7 @@ For each $u_i$, walk along the cumulative sum of normalized weights $c = \sum w^
 
 ---
 
-## Project 3 — Feedback Control
+## Project 2 — Feedback Control
 
 **Goal:** Given the current (estimated) state and a reference path with velocities, compute steering commands to track the path, implementing and comparing three controllers of increasing sophistication.
 
@@ -215,7 +215,7 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 ---
 
-## Project 4 — Sampling-Based Motion Planning
+## Project 3 — Sampling-Based Motion Planning
 
 **Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path — then connect the whole stack (localization → planning → control) into one closed loop.
 
