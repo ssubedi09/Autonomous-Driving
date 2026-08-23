@@ -86,7 +86,9 @@ To keep the algorithm efficient, we systematically weed out the bad guesses. We 
 
 $$
 \begin{bmatrix} x_e \\ y_e \end{bmatrix}
+$$
 =
+$$
 \begin{bmatrix} \cos\theta_r & \sin\theta_r \\ -\sin\theta_r & \cos\theta_r \end{bmatrix}
 \begin{bmatrix} x - x_r \\ y - y_r \end{bmatrix}
 $$
