@@ -215,11 +215,11 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 ---
 
-## Project 3 — Sampling-Based Motion Planning
+## Sampling-Based Motion Planning
 
 **Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path — then connect the whole stack (localization → planning → control) into one closed loop.
 
-### Q1 — Roadmap Construction
+### Roadmap Construction
 
 **Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. For index $i$ and prime base $b$, the radical-inverse function is:
 
@@ -236,7 +236,7 @@ i.e., reverse the base-$b$ digits of $i$ around the "decimal" point. A separate 
 
 ![Roadmap graph with edges, map1.txt](plots/roadmap_graph.png)
 
-### Q2 — Graph Search: A\*, Lazy A\*, and Shortcutting
+### Graph Search: A\*, Lazy A\*, and Shortcutting
 
 **A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Euclidean distance for R2, a relaxed Dubins-length bound for SE2).
 
@@ -264,7 +264,7 @@ $$
 |---|---|---|
 | *(fill in from experiments)* | | |
 
-### Q3 — SE(2) Planning with Dubins Paths
+### Planning with Dubins Paths
 
 For the car (which has orientation and a minimum turning radius), edges connect configurations via **Dubins paths** — the shortest path between two oriented points subject to a maximum curvature (minimum turning radius) constraint:
 
@@ -286,7 +286,7 @@ $$
 |---|---|---|---|
 | ![se2_c3](plots/se2_curvature_3.png) | ![se2_c4.5](plots/se2_curvature_4_5.png) | ![se2_c9](plots/se2_curvature_9.png) | ![se2_c15](plots/se2_curvature_15.png) |
 
-### Q4 — Full Integration
+### Full Integration
 
 `planner_ros` ties the particle filter's state estimate to a cached roadmap (indexed by map, problem type, sampler, vertex count, connection radius, and curvature), runs Lazy A\* + shortcutting from the estimated current state to a clicked goal, and hands the resulting path to the MPC controller for tracking — closing the full localize → plan → control loop.
 
