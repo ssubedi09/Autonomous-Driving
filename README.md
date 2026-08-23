@@ -94,7 +94,7 @@ $$
 
 This is used by both PID (error relative to the *closest* reference point) and Pure Pursuit (error relative to the *lookahead* point).
 
-### Q2 — PID (really PD) Controller
+### PD Controller
 
 $$
 u(t) = -K_p\, e(t) - K_d\, \dot e(t)
@@ -108,13 +108,7 @@ $$
 
 with $\theta_e$ the heading error. The steering command $\delta = u(t)$; the commanded velocity is copied directly from the reference path.
 
-**Tuning — PD gains** $(K_p, K_d)$ on three reference paths:
-
-| Circle | Left-turn | Wave |
-|---|---|---|
-| ![pid_circle](plots/pid_circle.png) | ![pid_left](plots/pid_left.png) | ![pid_wave](plots/pid_wave.png) |
-
-### Q3 — Pure Pursuit Controller
+### QPure Pursuit Controller
 
 Pure Pursuit fits a circular arc from the vehicle's rear axle through a lookahead point at distance $\ell_d$ (the "carrot"), expressed in the vehicle frame as $(x_e, y_e)$. With wheelbase $L$, the required curvature and resulting steering angle are:
 
@@ -122,15 +116,7 @@ $$
 \kappa = \frac{2 y_e}{\ell_d^2}, \qquad \delta = \arctan\!\big(L \, \kappa\big) = \arctan\!\left(\frac{2 L y_e}{\ell_d^2}\right)
 $$
 
-**Tuning — lookahead distance** $\ell_d$ on the `wave` path:
-
-| Lookahead too small | Well-tuned | Lookahead too large |
-|---|---|---|
-| ![pp_small](plots/pp_small.png) | ![pp_wave](plots/pp_wave.png) | ![pp_large](plots/pp_large.png) |
-
-A too-small $\ell_d$ causes oscillation/overshoot as the controller chases nearby curvature; a too-large $\ell_d$ cuts corners and undershoots sharp turns.
-
-### Q4 — Model-Predictive Control (MPC)
+### Model-Predictive Control (MPC)
 
 MPC solves a finite-horizon ($T$ steps), sampling-based ($K$ rollouts) optimization at every control step:
 
@@ -145,22 +131,6 @@ $$
 4. **Select** — execute the first control of the lowest-cost rollout $k^\* = \arg\min_k J_k$; replan at the next step (receding horizon).
 
 Because MPC reasons over obstacles that the reference path ignores, it is the only controller of the three that can navigate a slalom of obstacles not accounted for by the planner:
-
-![MPC rollouts colored by cost](plots/mpc_rollouts.png)
-
-**Tuning — MPC on standard paths:**
-
-| Circle | Wave | Saw (hardest — sharp corners exceed max curvature within the horizon) |
-|---|---|---|
-| ![mpc_circle](plots/mpc_circle.png) | ![mpc_wave](plots/mpc_wave.png) | ![mpc_saw](plots/mpc_saw.png) |
-
-**MPC navigating unmodeled obstacles in `slalom_world`:**
-
-| Slalom 1 | Slalom 2 |
-|---|---|
-| ![mpc_slalom1](plots/mpc_slalom1.png) | ![mpc_slalom2](plots/mpc_slalom2.png) |
-
----
 
 ## Full Pipeline Demo
 
