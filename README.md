@@ -42,47 +42,7 @@ All four projects share this same kinematic car model and the same map-based sim
 
 ---
 
-## Project 1 — Introduction to ROS
-
-**Goal:** Get comfortable with the ROS publish/subscribe architecture, catkin workspaces, and vectorized NumPy computation, using two small warm-up nodes.
-
-### Concepts
-- **Node** — an independent process registered with the ROS master.
-- **Topic** — a named, typed communication channel.
-- **Publisher / Subscriber** — endpoints that send/receive messages on a topic asynchronously.
-- **Launch file** — declarative XML description used to start many nodes together with parameters.
-
-### Q1 — Fibonacci Publisher Node
-A ROS node reads an index $n$ from a ROS parameter and publishes the $n$-th Fibonacci number:
-
-$$
-F(0) = 0, \quad F(1) = 1, \quad F(n) = F(n-1) + F(n-2), \; n \geq 2
-$$
-
-### Q2 — Pose Listener & Vectorized Euclidean Norm
-Given $N$ vectors of dimension $D$ stored as a NumPy array of shape $(N, D)$, the Euclidean norm of each row is:
-
-$$
-\lVert \mathbf{v}_i \rVert_2 = \sqrt{\sum_{j=1}^{D} v_{ij}^2}, \quad i = 1, \dots, N
-$$
-
-This was implemented two ways — a Python for-loop version (`norm_python`) and a vectorized version (`norm_numpy`) using `np.square` / `np.sqrt` — to directly compare the runtime benefit of vectorization, which motivates all later performance-critical code (motion/sensor models, MPC rollouts).
-
-**Runtime comparison (100 trials):**
-
-![Runtime comparison: norm_python vs norm_numpy](plots/runtime_comparison.png)
-*<!-- insert runtime_comparison.png here -->*
-
-A `PoseListener` subscriber also logs the car's live pose while it drives a pre-programmed plan (`figure_8`, `tight_figure_8`), and plots the resulting trajectory and distance-from-origin over time:
-
-| Figure-8 plan | Tight figure-8 plan |
-|---|---|
-| ![figure_8 locations](plots/figure_8_locations.png) | ![tight_figure_8 locations](plots/tight_figure_8_locations.png) |
-| ![figure_8 distances](plots/figure_8_distances.png) | ![tight_figure_8 distances](plots/tight_figure_8_distances.png) |
-
----
-
-## Project 2 — Particle Filter Localization
+## Project 1 — Particle Filter Localization
 
 **Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from noisy odometry and LIDAR, using a particle filter (sequential Monte Carlo / Bayes filter).
 
