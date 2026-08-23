@@ -107,7 +107,7 @@ $$
 
 with $\theta_e$ the heading error. The steering command $\delta = u(t)$; the commanded velocity is copied directly from the reference path.
 
-### QPure Pursuit Controller
+### Pure Pursuit Controller
 
 Pure Pursuit fits a circular arc from the vehicle's rear axle through a lookahead point at distance $\ell_d$ (the "carrot"), expressed in the vehicle frame as $(x_e, y_e)$. With wheelbase $L$, the required curvature and resulting steering angle are:
 
