@@ -7,9 +7,9 @@ This repository contains my implementation of the CSE 478 (Autonomous Robotics) 
 ## Table of Contents
 
 1. [System Overview](#System-Overview)
-2. [Particle Filter Localization](#particle-filter-localization)
-3. [Feedback Control](#feedback-control)
-4. [Sampling-Based Motion Planning](#sampling-based-motion-planning)
+2. [Sampling-Based Motion Planning](#sampling-based-motion-planning)
+3. [Particle Filter Localization](#particle-filter-localization)
+4. [Feedback Control](#feedback-control)
 6. [Full Pipeline Demo](#full-pipeline-demo)
 7. [Repository Structure](#repository-structure)
 8. [Setup & Running](#setup--running)
@@ -27,6 +27,26 @@ u = \begin{bmatrix} v \\ \delta \end{bmatrix}
 $$
 
 where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle. The autonomy stack is a standard sense → localize → plan → control loop.
+
+---
+
+## Sampling-Based Motion Planning
+
+**Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path — then connect the whole stack (localization → planning → control) into one closed loop.
+
+### Roadmap Construction
+
+**Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
+
+**Collision checking.** For each sampled state, validity requires the state to lie within the problem extents and its $(x,y)$ position to fall in the permissible (free) region of the map. Edges between nearby vertices (within a connection radius $r$) are similarly checked by discretizing the edge and validating every intermediate state.
+
+### Graph Search: A\*, Lazy A\*, and Shortcutting
+
+**A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Experimented with Euclidean distance and Dubins-length bound).
+
+**Lazy A\*.** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded*.
+
+**Shortcutting.** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
 
 ---
 
@@ -212,26 +232,6 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 | Slalom 1 | Slalom 2 |
 |---|---|
 | ![mpc_slalom1](plots/mpc_slalom1.png) | ![mpc_slalom2](plots/mpc_slalom2.png) |
-
----
-
-## Sampling-Based Motion Planning
-
-**Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path — then connect the whole stack (localization → planning → control) into one closed loop.
-
-### Roadmap Construction
-
-**Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
-
-**Collision checking.** For each sampled state, validity requires the state to lie within the problem extents and its $(x,y)$ position to fall in the permissible (free) region of the map. Edges between nearby vertices (within a connection radius $r$) are similarly checked by discretizing the edge and validating every intermediate state.
-
-### Graph Search: A\*, Lazy A\*, and Shortcutting
-
-**A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Experimented with Euclidean distance and Dubins-length bound).
-
-**Lazy A\*.** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded*.
-
-**Shortcutting.** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
 
 ---
 
