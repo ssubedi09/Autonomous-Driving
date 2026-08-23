@@ -18,7 +18,6 @@ This repository contains my implementation of the CSE 478 (Autonomous Robotics) 
 ---
 
 ## System Overview
-
 The MuSHR car is modeled as a **kinematic bicycle (rear-axle) car**, with state and control defined as:
 
 $$
@@ -26,7 +25,14 @@ x = \begin{bmatrix} x \\ y \\ \theta \end{bmatrix}, \qquad
 u = \begin{bmatrix} v \\ \delta \end{bmatrix}
 $$
 
-where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle. The autonomy stack is a standard sense → localize → plan → control loop.
+where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle.
+
+The car's motion is governed by the continuous-time **rear-axle kinematic bicycle model**, with wheelbase $L$ (distance between front and rear axles):
+
+$$
+\dot x = v\cos\theta, \qquad \dot y = v\sin\theta, \qquad \dot\theta = \frac{v}{L}\tan\delta
+$$
+
 
 ---
 
