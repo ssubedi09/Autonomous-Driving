@@ -186,16 +186,13 @@ or a GIF: ![demo](videos/demo_maze0.gif)
 ```
 mushr478/
 ├── cse478/            # Shared utilities, launch files, maps, RViz configs
-├── introduction/       # Project 1 — ROS basics, Fibonacci node, PoseListener
-│   ├── src/introduction/{fibonacci.py, listener.py}
-│   └── writeup/README.md
-├── localization/        # Project 2 — Particle filter
+├── localization/        # Particle filter
 │   ├── src/localization/{motion_model.py, sensor_model.py, particle_filter.py, resampler.py}
 │   └── writeup/README.md
-├── control/             # Project 3 — PID, Pure Pursuit, MPC
+├── control/             # Feedback Control
 │   ├── src/control/{controller.py, control_ros.py}
 │   └── writeup/README.md
-├── planning/            # Project 4 — Roadmap, A*/Lazy A*, shortcutting
+├── planning/            # Sampling Based Motion Planning
 │   ├── src/planning/{problems.py, samplers.py, roadmap.py, search.py}
 │   └── writeup/README.md
 └── README.md            # (this file)
@@ -226,8 +223,6 @@ roslaunch planning planner_sim.launch \
   map:='$(find cse478)/maps/maze_0.yaml' \
   num_vertices:=1000 connection_radius:=10 curvature:=1
 ```
-
-See each subpackage's `writeup/README.md` for detailed per-project instructions, parameter tuning notes, and answers to the course writeup questions.
 
 ## Acknowledgements
 
