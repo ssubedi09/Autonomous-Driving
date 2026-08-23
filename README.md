@@ -221,13 +221,7 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 ### Roadmap Construction
 
-**Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. For index $i$ and prime base $b$, the radical-inverse function is:
-
-$$
-\phi_b(i) = \sum_{k=0}^{n} \frac{d_k}{b^{k+1}}, \qquad \text{where } i = \sum_{k=0}^{n} d_k\, b^k \; (0 \le d_k < b)
-$$
-
-i.e., reverse the base-$b$ digits of $i$ around the "decimal" point. A separate Halton generator (distinct prime base) is used per configuration-space dimension, and samples are scaled into the extents of the problem.
+**Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
 
 ![Halton samples, free space](plots/halton_samples.png)
 ![Halton samples on map1.txt (collision-free)](plots/halton_samples_map1.png)
