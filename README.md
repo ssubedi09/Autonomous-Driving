@@ -95,7 +95,6 @@ $$
 This is used by both PID (error relative to the *closest* reference point) and Pure Pursuit (error relative to the *lookahead* point).
 
 ### PD Controller
-Control input is:
 $$
 u(t) = -K_p\. e(t) - K_d\. \dot e(t)
 $$
