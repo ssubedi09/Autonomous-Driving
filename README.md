@@ -61,7 +61,7 @@ $$
 **Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from noisy movement data and LIDAR scans using a particle filter.
 
 ### Particle Filter Initialization
-Particles are sampled from a Gaussian prior around a clicked pose $(x_0, y_0, \theta_0)$ with configurable position/heading variance.
+Particles are sampled from a Gaussian prior around current pose $(x_0, y_0, \theta_0)$ with configurable position/heading variance.
 
 ### Kinematic Car Motion Model
 This step predicts where the car will go based on its speed and steering commands (using a kinematic bicycle model). To account for real-world unpredictability, we intentionally inject random noise to simulate tire slip, delayed controls, and physical inaccuracies.
