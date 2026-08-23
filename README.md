@@ -107,14 +107,6 @@ Each particle's overall weight is the product (or, in log-space, the sum) of the
 ### Low-Variance Resampling
 To keep the algorithm efficient, we systematically weed out the bad guesses. We delete the low-scoring particles and clone the high-scoring ones, pulling the "cloud" of guesses tighter together around the car's true location.
 
-This is done by drawing a single random offset and then stepping $M$ evenly-spaced pointers through the cumulative weight distribution:
-
-$$
-r \sim \mathcal U\!\left[0, \tfrac{1}{M}\right), \qquad u_i = r + \frac{i-1}{M}, \quad i = 1, \dots, M
-$$
-
-For each $u_i$, the particle whose cumulative normalized weight $c = \sum w^{[i]}$ first exceeds $u_i$ is selected — an $O(M)$ procedure that keeps particles proportional to their weight while avoiding the higher variance of independently sampling $M$ particles.
-
 ---
 
 ## Feedback Control
