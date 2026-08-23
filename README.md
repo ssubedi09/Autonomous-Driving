@@ -28,6 +28,8 @@ $$
 
 where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle. The autonomy stack is a standard sense → localize → plan → control loop.
 
+---
+
 ## Project 1 — Particle Filter Localization
 
 **Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from noisy odometry and LIDAR, using a particle filter (sequential Monte Carlo / Bayes filter).
