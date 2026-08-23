@@ -227,21 +227,11 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 ### Graph Search: A\*, Lazy A\*, and Shortcutting
 
-**A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Euclidean distance for R2, a relaxed Dubins-length bound for SE2).
+**A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Experimented with Euclidean distance and Dubins-length bound).
 
-$$
-f(n) = g(n) + h(n)
-$$
-
-![A* shortest path, map1.txt](plots/astar_map1.png)
-
-**Lazy A\*.** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded* (i.e., when the search commits to using that edge). If the edge turns out to be invalid, the corresponding queue entry is discarded and search continues — trading some re-expansion for a much cheaper roadmap-construction phase.
-
-![Lazy A* path, map1.txt (dashed = invalid edges skipped)](plots/lazy_astar_map1.png)
+**Lazy A\*.** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded*.
 
 **Shortcutting.** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
-
-![Shortcut path vs. original Lazy A* path, map1.txt](plots/shortcut_map1.png)
 
 **Radius / vertex-count sensitivity on `map2.txt`** *(600 vertices baseline, $r=100$)*:
 
