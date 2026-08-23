@@ -82,15 +82,14 @@ To keep the algorithm efficient, we systematically weed out the bad guesses. We 
 
 **Reference point selection:** find the closest waypoint on the path to the current state, then walk forward along the path to the first waypoint at least `distance_lookahead` away (restricting to points *after* the closest one, so the car is never driven backwards).
 
-**Position in a rotated frame.** Given the car's position $p = (x, y)$ and a reference pose $(x_r, y_r, \theta_r)$, the position of $p$ expressed in the frame defined by the reference pose is:
+**Position in a rotated frame.** Given the car's position $p = (x, y)$ and a reference pose $(x_r, y_r, \theta_r)$, the position of $p$ expressed in the frame defined by the reference pose — i.e., a translation by $(-x_r, -y_r)$ followed by a rotation by $-\theta_r$ — is:
 
 $$
-\begin{bmatrix} x_e \\ y_e \end{bmatrix}
+x_e = (x - x_r)\cos\theta_r + (y - y_r)\sin\theta_r
 $$
-=
+
 $$
-\begin{bmatrix} \cos\theta_r & \sin\theta_r \\ -\sin\theta_r & \cos\theta_r \end{bmatrix}
-\begin{bmatrix} x - x_r \\ y - y_r \end{bmatrix}
+y_e = -(x - x_r)\sin\theta_r + (y - y_r)\cos\theta_r
 $$
 
 This is used by both PID (error relative to the *closest* reference point) and Pure Pursuit (error relative to the *lookahead* point).
