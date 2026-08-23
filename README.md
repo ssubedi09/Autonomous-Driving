@@ -223,12 +223,7 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 **Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
 
-![Halton samples, free space](plots/halton_samples.png)
-![Halton samples on map1.txt (collision-free)](plots/halton_samples_map1.png)
-
 **Collision checking.** For each sampled state, validity requires the state to lie within the problem extents and its $(x,y)$ position to fall in the permissible (free) region of the map. Edges between nearby vertices (within a connection radius $r$) are similarly checked by discretizing the edge and validating every intermediate state.
-
-![Roadmap graph with edges, map1.txt](plots/roadmap_graph.png)
 
 ### Graph Search: A\*, Lazy A\*, and Shortcutting
 
