@@ -33,7 +33,6 @@ $$
 \dot x = v\cos\theta, \qquad \dot y = v\sin\theta, \qquad \dot\theta = \frac{v}{L}\tan\delta
 $$
 
-
 ---
 
 ## Sampling-Based Motion Planning
@@ -66,11 +65,55 @@ Particles are sampled from a Gaussian prior around current pose $(x_0, y_0, \the
 ### Kinematic Car Motion Model
 This step predicts where the car will go based on its speed and steering commands (using a kinematic bicycle model). To account for real-world unpredictability, we intentionally inject random noise to simulate tire slip, delayed controls, and physical inaccuracies.
 
+Integrating the bicycle ODE above over a timestep $\Delta t$ gives the deterministic update:
+
+$$
+\theta' = \theta + \frac{v}{L}\tan(\delta)\,\Delta t, \qquad
+x' = x + \frac{L}{\tan\delta}\big(\sin\theta' - \sin\theta\big), \qquad
+y' = y - \frac{L}{\tan\delta}\big(\cos\theta' - \cos\theta\big)
+$$
+
+Noise is then injected in three steps, with action noise $(\sigma_v, \sigma_\delta)$ and model noise $(\sigma_x, \sigma_y, \sigma_\theta)$:
+
+$$
+\tilde v \sim \mathcal N(v, \sigma_v^2), \qquad \tilde\delta \sim \mathcal N(\delta, \sigma_\delta^2)
+$$
+
+integrate the deterministic model above with $(\tilde v, \tilde\delta)$, then add model noise to the result:
+
+$$
+x'' = x' + \varepsilon_x, \qquad y'' = y' + \varepsilon_y, \qquad \theta'' = \theta' + \varepsilon_\theta, \qquad \varepsilon_x, \varepsilon_y, \varepsilon_\theta \sim \mathcal N(0, \sigma^2)
+$$
+
+with the final heading wrapped into $[-\pi, \pi)$.
+
 ### LIDAR Sensor (Beam) Model
 The LIDAR sensor model grades each particle's accuracy by comparing the car's actual LIDAR scan against a simulation of what that specific particle should see based on the map. Instead of assuming a perfect sensor, it intelligently accounts for four real-world behaviors: accurate map hits, early blocks from unexpected obstacles (like people), max-range beams that hit nothing, and random sensor noise.
 
+For a real measured range $z$ and simulated (ray-cast) expected range $z^\*$, this is captured as a weighted mixture of four densities:
+
+$$
+p(z \mid z^\*) = z_{\text{hit}}\, p_{\text{hit}}(z\mid z^\*) + z_{\text{short}}\, p_{\text{short}}(z\mid z^\*) + z_{\text{max}}\, p_{\text{max}}(z) + z_{\text{rand}}\, p_{\text{rand}}(z), \qquad \textstyle\sum z_\bullet = 1
+$$
+
+where the "hit" component is modeled as a Gaussian centered on the expected return:
+
+$$
+p_{\text{hit}}(z \mid z^\*) \propto \exp\!\left(-\frac{(z - z^\*)^2}{2\sigma_{\text{hit}}^2}\right)
+$$
+
+Each particle's overall weight is the product (or, in log-space, the sum) of the per-beam probabilities across all LIDAR beams in the scan.
+
 ### Low-Variance Resampling
 To keep the algorithm efficient, we systematically weed out the bad guesses. We delete the low-scoring particles and clone the high-scoring ones, pulling the "cloud" of guesses tighter together around the car's true location.
+
+This is done by drawing a single random offset and then stepping $M$ evenly-spaced pointers through the cumulative weight distribution:
+
+$$
+r \sim \mathcal U\!\left[0, \tfrac{1}{M}\right), \qquad u_i = r + \frac{i-1}{M}, \quad i = 1, \dots, M
+$$
+
+For each $u_i$, the particle whose cumulative normalized weight $c = \sum w^{[i]}$ first exceeds $u_i$ is selected — an $O(M)$ procedure that keeps particles proportional to their weight while avoiding the higher variance of independently sampling $M$ particles.
 
 ---
 
