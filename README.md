@@ -68,7 +68,7 @@ This step predicts where the car will go based on its speed and steering command
 Integrating the bicycle ODE above over a timestep $\Delta t$ gives the deterministic update:
 
 $$
-\theta' = \theta + \frac{v}{L}\tan(\delta)\,\Delta t, \qquad
+\theta' = \theta + \frac{v}{L}\tan(\delta)\.\Delta t, \qquad
 x' = x + \frac{L}{\tan\delta}\big(\sin\theta' - \sin\theta\big), \qquad
 y' = y - \frac{L}{\tan\delta}\big(\cos\theta' - \cos\theta\big)
 $$
