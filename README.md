@@ -67,7 +67,7 @@ Particles are sampled from a Gaussian prior around a clicked pose $(x_0, y_0, \t
 This step predicts where the car will go based on its speed and steering commands (using a kinematic bicycle model). To account for real-world unpredictability, we intentionally inject random noise to simulate tire slip, delayed controls, and physical inaccuracies.
 
 ### LIDAR Sensor (Beam) Model
-This step grades each particle's accuracy. We compare the car's actual LIDAR scan to what each particle would see if it were standing at that specific spot on the map, assigning a higher weight (score) to the particles that match reality closely.
+The LIDAR sensor model grades each particle's accuracy by comparing the car's actual LIDAR scan against a simulation of what that specific particle should see based on the map. Instead of assuming a perfect sensor, it intelligently accounts for four real-world behaviors: accurate map hits, early blocks from unexpected obstacles (like people), max-range beams that hit nothing, and random sensor noise.
 
 ### Low-Variance Resampling
 To keep the algorithm efficient, we systematically weed out the bad guesses. We delete the low-scoring particles and clone the high-scoring ones, pulling the "cloud" of guesses tighter together around the car's true location.
