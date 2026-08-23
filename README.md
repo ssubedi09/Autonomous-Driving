@@ -93,7 +93,7 @@ The LIDAR sensor model grades each particle's accuracy by comparing the car's ac
 For a real measured range $z$ and simulated (ray-cast) expected range $z^\*$, this is captured as a weighted mixture of four densities:
 
 $$
-p(z \mid z^\*) = z_{\text{hit}}\, p_{\text{hit}}(z\mid z^\*) + z_{\text{short}}\, p_{\text{short}}(z\mid z^\*) + z_{\text{max}}\, p_{\text{max}}(z) + z_{\text{rand}}\, p_{\text{rand}}(z), \qquad \textstyle\sum z_\bullet = 1
+p(z \mid z^\*) = z_{\text{hit}}\. p_{\text{hit}}(z\mid z^\*) + z_{\text{short}}\. p_{\text{short}}(z\mid z^\*) + z_{\text{max}}\. p_{\text{max}}(z) + z_{\text{rand}}\. p_{\text{rand}}(z), \qquad \textstyle\sum z_\bullet = 1
 $$
 
 where the "hit" component is modeled as a Gaussian centered on the expected return:
