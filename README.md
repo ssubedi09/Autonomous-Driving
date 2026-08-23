@@ -129,7 +129,7 @@ $$
 
 4. **Select** — execute the first control of the lowest-cost rollout $k^\* = \arg\min_k J_k$; replan at the next step (receding horizon).
 
-Because MPC reasons over obstacles that the reference path ignores, it is the only controller of the three that can navigate a slalom of obstacles not accounted for by the planner:
+Because MPC reasons over obstacles that the reference path ignores, it is the only controller of the three that can navigate obstacles not accounted for by the planner.
 
 ## Full Pipeline Demo
 
