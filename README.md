@@ -7,9 +7,9 @@ This repository contains my implementation of the CSE 478 (Autonomous Robotics) 
 ## Table of Contents
 
 1. [System Overview](#System-Overview)
-2. [Particle Filter Localization](#project-1--particle-filter-localization)
-3. [Feedback Control](#project-2--feedback-control)
-4. [Sampling-Based Motion Planning](#project-3--sampling-based-motion-planning)
+2. [Particle Filter Localization](#particle-filter-localization)
+3. [Feedback Control](#feedback-control)
+4. [Sampling-Based Motion Planning](#sampling-based-motion-planning)
 6. [Full Pipeline Demo](#full-pipeline-demo)
 7. [Repository Structure](#repository-structure)
 8. [Setup & Running](#setup--running)
@@ -30,7 +30,7 @@ where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed
 
 ---
 
-## Project 1 — Particle Filter Localization
+## Particle Filter Localization
 
 **Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from LIDAR, using a particle filter.
 
