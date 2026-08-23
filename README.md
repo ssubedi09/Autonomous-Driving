@@ -1,16 +1,14 @@
 # MuSHR Autonomous Racing 
 
-This repository contains my implementation of the four-part CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. Across the four projects I implemented a full autonomy stack for a 1/10-scale car: **ROS fundamentals**, **particle-filter localization**, **feedback control (PID / Pure Pursuit / MPC)**, and **sampling-based motion planning (Lazy A\*)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation.
+This repository contains my implementation of the CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. I implemented a full autonomy stack for a 1/10-scale car in ROS: **particle-filter localization**, **feedback control (PID / Pure Pursuit / MPC)**, and **sampling-based motion planning (Lazy A\*)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation.
 
 ---
 
 ## Table of Contents
 
-1. [System Overview](#system-overview)
-2. [Project 1 — Introduction to ROS](#project-1--introduction-to-ros)
-3. [Project 2 — Particle Filter Localization](#project-2--particle-filter-localization)
-4. [Project 3 — Feedback Control](#project-3--feedback-control)
-5. [Project 4 — Sampling-Based Motion Planning](#project-4--sampling-based-motion-planning)
+1. [Particle Filter Localization](#project-2--particle-filter-localization)
+2. [Feedback Control](#project-3--feedback-control)
+3. [Sampling-Based Motion Planning](#project-4--sampling-based-motion-planning)
 6. [Full Pipeline Demo](#full-pipeline-demo)
 7. [Repository Structure](#repository-structure)
 8. [Setup & Running](#setup--running)
