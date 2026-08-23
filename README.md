@@ -42,17 +42,17 @@ $$
 
 ### Roadmap Construction
 
-**Halton sequence sampling.** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
+**Halton sequence sampling:** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
 
-**Collision checking.** For each sampled state, validity requires the state to lie within the problem extents and its $(x,y)$ position to fall in the permissible (free) region of the map. Edges between nearby vertices (within a connection radius $r$) are similarly checked by discretizing the edge and validating every intermediate state.
+**Collision checking:** For each sampled state, validity requires the state to lie within the problem extents and its $(x,y)$ position to fall in the permissible (free) region of the map. Edges between nearby vertices (within a connection radius $r$) are similarly checked by discretizing the edge and validating every intermediate state.
 
 ### Graph Search: A\*, Lazy A\*, and Shortcutting
 
-**A\*** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Experimented with Euclidean distance and Dubins-length bound).
+**A\*:** expands nodes in order of $f(n) = g(n) + h(n)$, where $g(n)$ is the cost-to-come (accumulated edge length) and $h(n)$ is an admissible heuristic estimate of cost-to-go (Experimented with Euclidean distance and Dubins-length bound).
 
-**Lazy A\*.** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded*.
+**Lazy A\*:** Edge collision-checking dominates roadmap construction cost. Lazy A\* defers this check: edges are optimistically assumed valid during search and are only actually collision-checked when a node is *expanded*.
 
-**Shortcutting.** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
+**Shortcutting:** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
 
 ---
 
@@ -82,7 +82,7 @@ To keep the algorithm efficient, we systematically weed out the bad guesses. We 
 
 **Reference point selection:** find the closest waypoint on the path to the current state, then walk forward along the path to the first waypoint at least `distance_lookahead` away (restricting to points *after* the closest one, so the car is never driven backwards).
 
-**Position in a rotated frame.** Given the car's position $p = (x, y)$ and a reference pose $(x_r, y_r, \theta_r)$, the position of $p$ expressed in the frame defined by the reference pose — i.e., a translation by $(-x_r, -y_r)$ followed by a rotation by $-\theta_r$ — is:
+**Position in a rotated frame:** Given the car's position $p = (x, y)$ and a reference pose $(x_r, y_r, \theta_r)$, the position of $p$ expressed in the frame defined by the reference pose — i.e., a translation by $(-x_r, -y_r)$ followed by a rotation by $-\theta_r$ — is:
 
 $$
 x_e = (x - x_r)\cos\theta_r + (y - y_r)\sin\theta_r
