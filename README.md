@@ -248,10 +248,6 @@ or a GIF: ![demo](videos/demo_maze0.gif)
 |---|---|
 | *(insert video/GIF here)* | *(insert video/GIF here)* |
 
-| Optional — physical MuSHR car in the lab |
-|---|
-| *(insert video/GIF here)* |
-
 ---
 
 ## Repository Structure
