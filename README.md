@@ -233,50 +233,6 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 **Shortcutting.** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
 
-**Radius / vertex-count sensitivity on `map2.txt`** *(600 vertices baseline, $r=100$)*:
-
-| Connection radius $r$ | Path length | Planning time |
-|---|---|---|
-| *(fill in from experiments)* | | |
-
-| Num. vertices $n$ | Path length | Planning time |
-|---|---|---|
-| *(fill in from experiments)* | | |
-
-### Planning with Dubins Paths
-
-For the car (which has orientation and a minimum turning radius), edges connect configurations via **Dubins paths** — the shortest path between two oriented points subject to a maximum curvature (minimum turning radius) constraint:
-
-$$
-\kappa_{\max} = \frac{1}{r_{\min}}
-$$
-
-Because Dubins paths are direction-dependent (a path from $A \to B$ is generally not the reverse of $B \to A$), the SE(2) roadmap graph is **directed**, and typically needs more vertices than R2 to remain well-connected.
-
-**Maximum curvature for the MuSHR car:** with max steering angle $\delta_{\max} = 0.34$ rad and wheelbase $L = 0.33$ m, from the kinematic car model $\dot\theta = \frac{v}{L}\tan\delta$, the minimum turning radius is $r_{\min} = L / \tan(\delta_{\max})$, giving:
-
-$$
-\kappa_{\max} = \frac{\tan(\delta_{\max})}{L} = \frac{\tan(0.34)}{0.33} \approx 1.09~\text{m}^{-1}
-$$
-
-**Effect of curvature constraint** on the SE(2) path (fixed $n=40$, $r=4$):
-
-| $c = 3$ | $c = 4.5$ | $c = 9$ | $c = 15$ |
-|---|---|---|---|
-| ![se2_c3](plots/se2_curvature_3.png) | ![se2_c4.5](plots/se2_curvature_4_5.png) | ![se2_c9](plots/se2_curvature_9.png) | ![se2_c15](plots/se2_curvature_15.png) |
-
-### Full Integration
-
-`planner_ros` ties the particle filter's state estimate to a cached roadmap (indexed by map, problem type, sampler, vertex count, connection radius, and curvature), runs Lazy A\* + shortcutting from the estimated current state to a clicked goal, and hands the resulting path to the MPC controller for tracking — closing the full localize → plan → control loop.
-
-**`maze_0`** (roadmap: *fill in num_vertices / connection_radius / curvature used*):
-
-![Planning + tracking in maze_0](plots/planning_maze_0.png)
-
-**`cse2_2`** (larger map — roadmap: *fill in parameters used*):
-
-![Planning + tracking in cse2_2](plots/planning_cse2_2.png)
-
 ---
 
 ## Full Pipeline Demo
