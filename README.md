@@ -148,7 +148,7 @@ For each $u_i$, walk along the cumulative sum of normalized weights $c = \sum w^
 
 ---
 
-## Project 2 — Feedback Control
+## Feedback Control
 
 **Goal:** Given the current (estimated) state and a reference path with velocities, compute steering commands to track the path, implementing and comparing three controllers of increasing sophistication.
 
