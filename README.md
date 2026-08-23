@@ -1,8 +1,6 @@
-# MuSHR Autonomous Racing — CSE 478 Project Suite
+# MuSHR Autonomous Racing 
 
-This repository contains my implementation of the four-part CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. Across the four projects I implemented a full autonomy stack for a 1/10-scale car: **ROS fundamentals**, **particle-filter localization**, **feedback control (PID / Pure Pursuit / MPC)**, and **sampling-based motion planning (Lazy A\*)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation and (optionally) on real hardware.
-
-> Course: CSE 478, University of Washington, Paul G. Allen School of Computer Science & Engineering.
+This repository contains my implementation of the four-part CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. Across the four projects I implemented a full autonomy stack for a 1/10-scale car: **ROS fundamentals**, **particle-filter localization**, **feedback control (PID / Pure Pursuit / MPC)**, and **sampling-based motion planning (Lazy A\*)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation.
 
 ---
 
