@@ -6,7 +6,7 @@ This repository contains my implementation of the CSE 478 (Autonomous Robotics) 
 
 ## Table of Contents
 
-1. [System Overview] (#System-Overview)
+1. [System Overview](#System-Overview)
 2. [Particle Filter Localization](#project-1--particle-filter-localization)
 3. [Feedback Control](#project-2--feedback-control)
 4. [Sampling-Based Motion Planning](#project-3--sampling-based-motion-planning)
