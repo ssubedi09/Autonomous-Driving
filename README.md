@@ -97,7 +97,7 @@ This is used by both PID (error relative to the *closest* reference point) and P
 ### PD Controller
 Control input is:
 $$
-u(t) = -K_p\dot e(t) - K_d \dot e(t)
+u(t) = -K_p  e(t) - K_d \dot e(t)
 $$
 
 where $e(t)$ is the lateral (cross-track) error $y_e$ from the frame transform above, and the derivative is computed analytically rather than via finite differences:
