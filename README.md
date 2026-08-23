@@ -76,7 +76,7 @@ To keep the algorithm efficient, we systematically weed out the bad guesses. We 
 
 ## Feedback Control
 
-**Goal:** Given the current (estimated) state and a reference path with velocities, compute steering commands to track the path, implementing and comparing three controllers of increasing sophistication.
+**Goal:** Given the current (estimated) state and a reference path with velocities, compute steering commands to track the path.
 
 ### Shared machinery
 
