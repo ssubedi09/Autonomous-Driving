@@ -26,22 +26,7 @@ x = \begin{bmatrix} x \\ y \\ \theta \end{bmatrix}, \qquad
 u = \begin{bmatrix} v \\ \delta \end{bmatrix}
 $$
 
-where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle. The autonomy stack is a standard sense → localize → plan → control loop:
-
-```
-LIDAR + Odometry ──▶ Particle Filter (Project 2) ──▶ State Estimate x̂
-                                                          │
-Map ──▶ Roadmap + Lazy A* (Project 4) ──▶ Reference Path │
-                                                          ▼
-                                    Controller (Project 3: PID / Pure Pursuit / MPC)
-                                                          │
-                                                          ▼
-                                                   Control command (v, δ)
-```
-
-All four projects share this same kinematic car model and the same map-based simulator, so the components built in earlier projects (e.g., the motion model from Project 2) are reused directly in later ones (e.g., MPC rollouts in Project 3, roadmap edge validation in Project 4).
-
----
+where $(x, y)$ is the 2D position, $\theta$ the heading, $v$ the commanded speed, and $\delta$ the steering angle. The autonomy stack is a standard sense → localize → plan → control loop.
 
 ## Project 1 — Particle Filter Localization
 
