@@ -58,99 +58,19 @@ $$
 
 ## Particle Filter Localization
 
-**Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from LIDAR, using a particle filter.
+**Goal:** Estimate the car's pose $x_t = (x, y, \theta)$ from noisy movement data and LIDAR scans using a particle filter.
 
-### State Estimation Setup
-
-- **Motion model:** $p(x_t \mid u_t, x_{t-1})$ — probability of the new state given the applied control.
-- **Sensor model:** $p(z_t \mid x_t, m)$ — probability of a LIDAR scan given the state and known map $m$.
-- **Belief:** approximated by $M$ weighted particles $\{x_t^{[i]}, w_t^{[i]}\}_{i=1}^{M}$.
+### Particle Filter Initialization
+Particles are sampled from a Gaussian prior around a clicked pose $(x_0, y_0, \theta_0)$ with configurable position/heading variance.
 
 ### Kinematic Car Motion Model
-
-**Deterministic update.** Integrating the kinematic bicycle equations over $\Delta t$ with wheelbase $L$:
-
-$$
-\theta' = \theta + \frac{v}{L}\tan(\delta)\,\Delta t
-$$
-
-If $\delta \neq 0$:
-
-$$
-x' = x + \frac{L}{\tan(\delta)}\big(\sin\theta' - \sin\theta\big), \qquad
-y' = y - \frac{L}{\tan(\delta)}\big(\cos\theta' - \cos\theta\big)
-$$
-
-If $\delta = 0$ (degenerate case, straight-line motion):
-
-$$
-x' = x + v\cos(\theta)\,\Delta t, \qquad y' = y + v\sin(\theta)\,\Delta t
-$$
-
-**Probabilistic (noisy) update.** Three-step noise injection with action noise $(\sigma_v, \sigma_\delta)$ and model noise $(\sigma_x, \sigma_y, \sigma_\theta)$:
-
-1. Sample noisy controls: $\tilde v \sim \mathcal N(v, \sigma_v^2)$, $\tilde\delta \sim \mathcal N(\delta, \sigma_\delta^2)$
-2. Integrate the deterministic model with $(\tilde v, \tilde\delta)$ to get $(x', y', \theta')$
-3. Add model noise: $x'' = x' + \varepsilon_x,\; y'' = y' + \varepsilon_y,\; \theta'' = \theta' + \varepsilon_\theta$, with $\varepsilon_x \sim \mathcal N(0,\sigma_x^2)$, etc.
-
-The heading is finally wrapped into $[-\pi, \pi)$:
-
-$$
-\theta_{\text{wrapped}} = \big((\theta'' + \pi) \bmod 2\pi\big) - \pi
-$$
-
-The whole update is vectorized over all $M$ particles simultaneously using NumPy broadcasting/boolean indexing rather than a Python loop.
-
-**Tuning — motion model noise plots** (target: match the staff-tuned "banana"-shaped noise cone for control $(v, \delta, \Delta t) = (3.0,\, 0.4,\, 0.5)$):
-
-| Iteration 1 | Iteration 2 | Final tuned |
-|---|---|---|
-| ![mm1](plots/mm1.png) | ![mm2](plots/mm2.png) | ![mm3](plots/mm3.png) |
+This step predicts where the car will go based on its speed and steering commands (using a kinematic bicycle model). To account for real-world unpredictability, we intentionally inject random noise to simulate tire slip, delayed controls, and physical inaccuracies.
 
 ### LIDAR Sensor (Beam) Model
+This step grades each particle's accuracy. We compare the car's actual LIDAR scan to what each particle would see if it were standing at that specific spot on the map, assigning a higher weight (score) to the particles that match reality closely.
 
-For a single beam, let $z$ be the real measured range and $z^\*$ the simulated ("expected") range from ray-casting on the map. The sensor model is a **4-component mixture**:
-
-$$
-p(z \mid z^\*) = z_{\text{hit}}\, p_{\text{hit}}(z\mid z^\*) + z_{\text{short}}\, p_{\text{short}}(z\mid z^\*) + z_{\text{max}}\, p_{\text{max}}(z) + z_{\text{rand}}\, p_{\text{rand}}(z)
-$$
-
-with mixture weights $z_{\text{hit}} + z_{\text{short}} + z_{\text{max}} + z_{\text{rand}} = 1$, and:
-
-- **Hit** (Gaussian around the expected return, noise $\sigma_{\text{hit}}$):
-$$
-p_{\text{hit}}(z\mid z^\*) \propto \exp\!\left(-\frac{(z - z^\*)^2}{2\sigma_{\text{hit}}^2}\right)
-$$
-- **Short** (unexpected obstacle before the wall — modeled as an exponential decay for $0 \le z \le z^\*$).
-- **Max** (point mass at maximum sensor range, for beams that miss everything).
-- **Rand** (uniform distribution over all possible ranges, capturing sensor noise/artifacts).
-
-To make this tractable in real time, probabilities are **pre-computed and cached** into a lookup table indexed by (discretized measured range, discretized expected range), normalized so each row sums to 1; at runtime the raycaster (`rangelibc`) produces $z^\*$ and the model becomes an $O(1)$ table lookup per beam.
-
-**Tuning — sensor model likelihood field**, evaluated over every map cell for a fixed scan at $(x, y, \theta) = (-9.6,\, 0,\, -2.5)$ on `maze_0`:
-
-| Position-only likelihood | Position + orientation likelihood |
-|---|---|
-| ![sensor likelihood position](plots/sensor_likelihood_position.png) | ![sensor likelihood angle](plots/sensor_likelihood_angle.png) |
-
-### Particle Filter: Initialization & Low-Variance Resampling
-
-**Initialization:** particles are sampled from a Gaussian prior around a clicked pose $(x_0, y_0, \theta_0)$ with configurable position/heading variance.
-
-**Low-variance resampling.** Rather than drawing $M$ i.i.d. samples (an $O(M \log M)$ operation with high variance), a single random offset is drawn and $M$ evenly-spaced pointers walk the cumulative weight distribution:
-
-$$
-r \sim \mathcal U\!\left[0, \tfrac{1}{M}\right), \qquad
-u_i = r + \frac{i-1}{M}, \quad i = 1, \dots, M
-$$
-
-For each $u_i$, walk along the cumulative sum of normalized weights $c = \sum w^{[i]}$ until $c \geq u_i$, and select that particle. This is $O(M)$, guarantees that particles proportional to their weight are represented (even under uniform weights, no particle is dropped), and has much lower variance than independent sampling — critical for real-time performance.
-
-**Full particle filter evaluation** — 60-second live drive through the CSE2 building, comparing estimated vs. ground-truth path:
-
-![Particle filter path plot in CSE2](plots/particle_filter_path.png)
-
-*Median position/heading error on `full.bag`: **< 0.1** (all axes).*
+### Low-Variance Resampling
+To keep the algorithm efficient, we systematically weed out the bad guesses. We delete the low-scoring particles and clone the high-scoring ones, pulling the "cloud" of guesses tighter together around the car's true location.
 
 ---
 
