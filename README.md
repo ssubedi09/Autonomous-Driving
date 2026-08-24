@@ -208,6 +208,22 @@ This project targets **ROS Noetic** running inside the CSE 478 course virtual ma
 
 **3. Running this repo's solution:** Once your `~/mushr_ws` workspace is set up per Section 1/2 above, you can drop in my completed implementation by simply replacing the corresponding folders inside `~/mushr_ws/src/mushr478/` with the folders from this repo (`introduction/`, `localization/`, `control/`, `planning/`), then rebuild:
 
+```bash
+cd ~/mushr_ws && catkin build
+source ~/mushr_ws/devel/setup.bash
+
+# Run individual package tests
+catkin test introduction
+catkin test localization
+catkin test control
+catkin test planning
+
+# Launch the full integrated stack in simulation
+roslaunch planning planner_sim.launch \
+  map:='$(find cse478)/maps/maze_0.yaml' \
+  num_vertices:=1000 connection_radius:=10 curvature:=1
+```
+
 ## Acknowledgements
 
 Built for CSE 478 (Autonomous Robotics), University of Washington, Paul G. Allen School of Computer Science & Engineering, on the open-source [MuSHR](https://mushr.io/) platform. Course materials, starter code, and figures referenced from the course website.
