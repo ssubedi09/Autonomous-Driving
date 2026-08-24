@@ -200,29 +200,13 @@ mushr478/
 
 ## Setup & Running
 
-This project targets **ROS Noetic** on the CSE 478 course VM (Ubuntu 20.04). High-level setup:
+This project targets **ROS Noetic** running inside the CSE 478 course virtual machine.
 
-```bash
-# One-time: build dependency workspace
-source /opt/ros/noetic/setup.bash
-cd ~/dependencies_ws && catkin build
-source ~/dependencies_ws/devel/setup.bash
+**1. VM setup & dependency workspace:** Follow **Section 1 (Setting Up the Virtual Machine)** and **Section 2 (Getting Started with ROS)** of the official [Project 1: Introduction](https://courses.cs.washington.edu/courses/cse478/21sp/projects/introduction/) page — this covers downloading/importing the VM, installing ROS, and building the `~/dependencies_ws` and `~/mushr_ws` workspaces.
 
-# Build this project workspace
-cd ~/mushr_ws && catkin build
-source ~/mushr_ws/devel/setup.bash
+**2. Per-project instructions:** Detailed setup, questions, and deliverables for each of the four projects are on the course [Projects page](https://courses.cs.washington.edu/courses/cse478/21sp/projects/).
 
-# Run individual package tests
-catkin test introduction
-catkin test localization
-catkin test control
-catkin test planning
-
-# Launch the full integrated stack in simulation
-roslaunch planning planner_sim.launch \
-  map:='$(find cse478)/maps/maze_0.yaml' \
-  num_vertices:=1000 connection_radius:=10 curvature:=1
-```
+**3. Running this repo's solution:** Once your `~/mushr_ws` workspace is set up per Section 1/2 above, you can drop in my completed implementation by simply replacing the corresponding folders inside `~/mushr_ws/src/mushr478/` with the folders from this repo (`introduction/`, `localization/`, `control/`, `planning/`), then rebuild:
 
 ## Acknowledgements
 
