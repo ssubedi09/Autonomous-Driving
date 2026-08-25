@@ -53,7 +53,7 @@ $$
 
 **Shortcutting:** A\* returns the shortest path *on the graph*, not necessarily the shortest path in continuous space (since only sampled vertices are connectable). The shortcut post-processor repeatedly picks two random indices along the path, and if a direct, collision-free edge between them is both feasible and shorter than the existing sub-path, replaces the sub-path with that direct edge.
 
-| ![Initial Path](dubins_path.png) | ![Path after Shortcuttin](shortcutting.png) |
+| ![Initial Path](dubins_path.png) | ![Path after Shortcutting](shortcutting.png) |
 | :---: | :---: |
 | *Trajectory found using Lazy A\* search on a roadmap generated via Halton sampling. The blue line represents the planned Dubins path from the start (green) to the goal (red).* | *Optimized trajectory after applying a shortcutting algorithm. This smooths the initial Lazy A\* path, removing unnecessary maneuvers to improve overall efficiency.* |
 
