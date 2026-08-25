@@ -109,7 +109,7 @@ To keep the algorithm efficient, we systematically weed out the bad guesses. We 
 
 | ![Particle filter visualization](circle_localize.gif) | ![Full map visualization](full_localize.gif) |
 | :---: | :---: |
-| *Particle filter visualization for vehicle moving in circle. Moving red particles are the estimate and long red line is the estimated pose* | *Full map visualization. (Your caption here)* |
+| *Particle filter visualization for vehicle moving (represented by green line) in circle. Moving red particles are the estimate and long red line is the estimated pose* | *Full map visualization.* |
 
 ---
 
