@@ -55,7 +55,7 @@ $$
 
 | ![Initial Path](dubins_path.png) | ![Path after Shortcutting](shortcutting.png) |
 | :---: | :---: |
-| *Initial trajectory found using Lazy A\* search on a roadmap generated via Halton sampling. The blue line represents the planned Dubins path from the start (green) to the goal (red).* | *Optimized trajectory after applying a shortcutting algorithm. This smooths the initial Lazy A\* path, removing unnecessary maneuvers to improve overall efficiency.* |
+| *Trajectory found using Lazy A\* search on a roadmap generated via Halton sampling. The blue line represents the planned Dubins path from the start (green) to the goal (red).* | *Optimized trajectory after applying a shortcutting algorithm. This smooths the initial Lazy A\* path, removing unnecessary maneuvers to improve overall efficiency.* |
 
 ---
 
