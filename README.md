@@ -174,9 +174,9 @@ $$
 
 Because MPC reasons over obstacles that the reference path ignores, it is the only controller of the three that can navigate obstacles not accounted for by the planner.
 
-| ![PD Controller](pid.gif) | ![Pure Pursuit Controller](pp.jpg) | ![MPC Controller](mpc.gif) |
+| ![PD Controller](pid.gif) | ![Pure Pursuit Controller](pp.gif) | ![MPC Controller](mpc.gif) |
 | :---: | :---: | :---: |
-| *PD Controller tracking a sine wave path.* | *Pure Pursuit controller tracking a circular path.* | *Model Predictive Control (MPC) tracking waypoints.* |
+| *PD Controller tracking a sine wave path.* | *Pure Pursuit controller tracking a circular path.* | *Model Predictive Control (MPC) tracking sine wave path with obstacles.* |
 
 
 ## Full Pipeline Demo
