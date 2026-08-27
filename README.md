@@ -33,7 +33,7 @@ $$
 \dot x = v\cos\theta, \qquad \dot y = v\sin\theta, \qquad \dot\theta = \frac{v}{L}\tan\delta
 $$
 
-> **Note:** The simulator maintains its own internal vehicle model that responds to control inputs $(v, \delta)$ and serves as ground truth. The kinematic bicycle model described above is the one used for estimation (particle filter motion model) and control (PD/Pure Pursuit/MPC), rather than the simulator's internal implementation.
+> **Note:** The simulator maintains its own internal vehicle model that responds to control inputs $(v, \delta)$ and serves as ground truth. The kinematic bicycle model described above is the one used for planning, estimation, and control.
 
 ---
 
