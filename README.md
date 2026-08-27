@@ -181,16 +181,12 @@ Because MPC reasons over obstacles that the reference path ignores, it is the on
 
 ## Full Pipeline Demo
 
-End-to-end videos of the integrated stack (particle filter localization + Lazy A\* planning + MPC tracking) driving the MuSHR car to a goal pose, in simulation and (optionally) on the physical car.
+End-to-end videos of the integrated stack (particle filter localization + Lazy A\* planning + MPC tracking) driving the MuSHR car to a goal pose, in simulation. The goal is set by the user at the start. Tha map is built incrementally before even setting the goal.
 
-<!-- Replace with actual video embeds/links, e.g.:
-https://user-images.githubusercontent.com/.../demo-maze0.mp4
-or a GIF: ![demo](videos/demo_maze0.gif)
--->
 
-| Simulation — `maze_0` | Simulation — `cse2_2` |
-|---|---|
-| *(insert video/GIF here)* | *(insert video/GIF here)* |
+| ![Full Stack Map 1](maze.gif) | ![Full Stack Map 2](cse.gif) |
+| :---: | :---: |
+| *Dense path planning graph through a maze environment.* | *Full stack navigation on a building map.* |
 
 ---
 
