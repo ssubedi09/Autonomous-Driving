@@ -1,6 +1,6 @@
 # Autonomous Driving with MuSHR
 
-This repository contains my implementation of the CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. I implemented a full autonomy stack for a 1/10-scale car in ROS: **sampling-based motion planning (Lazy A\*)**, **particle-filter localization**, and **feedback control (PID / Pure Pursuit / MPC)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation.
+This repository contains my implementation of the CSE 478 (Autonomous Robotics) course project, built on the [MuSHR](https://mushr.io/) (Multi-agent System for non-Holonomic Racing) platform. I implemented a full autonomy stack for a 1/10-scale car in ROS: **sampling-based motion planning (Lazy A\*)**, **particle-filter localization**, and **feedback control (PD / Pure Pursuit / MPC)**, integrated end-to-end so the car can localize, track a path, and plan around obstacles in simulation.
 
 ---
 
@@ -173,6 +173,11 @@ $$
 4. **Select** — execute the first control of the lowest-cost rollout $k^\* = \arg\min_k J_k$; replan at the next step (receding horizon).
 
 Because MPC reasons over obstacles that the reference path ignores, it is the only controller of the three that can navigate obstacles not accounted for by the planner.
+
+| ![PD Controller](pid.gif) | ![Pure Pursuit Controller](pp.jpg) | ![MPC Controller](mpc.gif) |
+| :---: | :---: | :---: |
+| *PD Controller tracking a sine wave path.* | *Pure Pursuit controller tracking a circular path.* | *Model Predictive Control (MPC) tracking waypoints.* |
+
 
 ## Full Pipeline Demo
 
