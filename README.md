@@ -39,8 +39,7 @@ $$
 
 ## Sampling-Based Motion Planning
 
-**Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path — then connect the whole stack (localization → planning → control) into one closed loop.
-
+**Goal:** Build a probabilistic roadmap (PRM-style graph) over free space, search it efficiently with Lazy A\*, and shortcut the resulting path.
 ### Roadmap Construction
 
 **Halton sequence sampling:** A deterministic, low-discrepancy quasi-random sequence used instead of uniform random sampling for better coverage with fewer samples. 
